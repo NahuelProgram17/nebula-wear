@@ -1,0 +1,52 @@
+{% extends "core/base.html" %}
+
+{% block title %}Productos | Nebula Wear{% endblock %}
+
+{% block content %}
+
+<section class="products-page">
+
+    <!-- Header -->
+    <header class="products-header">
+        <h1>Productos</h1>
+        <p>Explorá nuestra colección</p>
+    </header>
+
+    <!-- Grid -->
+    <section class="products-grid">
+
+        {% if products %}
+            {% for product in products %}
+                <article class="product-card">
+
+                    <a href="{% url 'product_detail' product.slug %}">
+                        <img 
+                            src="{{ product.image.url }}" 
+                            alt="{{ product.name }}"
+                            class="product-image"
+                        >
+                    </a>
+
+                    <div class="product-info">
+                        <h2 class="product-name">{{ product.name }}</h2>
+                        <p class="product-price">${{ product.price }}</p>
+
+                        <a 
+                            href="{% url 'product_detail' product.slug %}" 
+                            class="product-link"
+                        >
+                            Ver detalle
+                        </a>
+                    </div>
+
+                </article>
+            {% endfor %}
+        {% else %}
+            <p>No hay productos en esta categoría.</p>
+        {% endif %}
+
+    </section>
+
+</section>
+
+{% endblock %}

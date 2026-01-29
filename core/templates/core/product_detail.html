@@ -1,0 +1,40 @@
+{% extends "core/base.html" %}
+
+{% block title %}
+{{ product.name }} | Nebula Wear
+{% endblock %}
+
+{% block content %}
+
+<section class="product-detail">
+
+    <!-- Imagen -->
+    <div class="product-detail-image">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    </div>
+
+    <!-- Info -->
+    <div class="product-detail-info">
+        <h1>{{ product.name }}</h1>
+
+        <p class="product-price">
+            ${{ product.price }}
+        </p>
+
+        {% if product.description %}
+            <p class="product-description">
+                {{ product.description }}
+            </p>
+        {% endif %}
+
+        <form method="post" action="{% url 'add_to_cart' product.slug %}">
+    {% csrf_token %}
+    <button type="submit" class="btn-add-cart">
+        Agregar al carrito
+    </button>
+</form>
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Nebula Wear{% endblock %}</title>
+
+    <!-- CSS GLOBAL -->
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    <!-- CSS navbar -->
+    <link rel="stylesheet" href="{% static 'core/css/components/navbar.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <nav class="navbar">
+            <div class="navbar-container">
+
+                <div class="navbar-logo">
+                    <a href="{% url 'home' %}">Nebula Wear</a>
+                </div>
+
+                <!-- BOTÓN HAMBURGUESA -->
+                <button class="navbar-toggle" aria-label="Abrir menú">☰</button>
+
+                <ul class="navbar-menu">
+
+    <!-- Inicio -->
+    <li class="navbar-item {% if request.path == '/' %}active{% endif %}">
+        <a href="{% url 'home' %}">Inicio</a>
+    </li>
+
+    <!-- Todos los productos -->
+    <li class="navbar-item {% if request.path|slice:":10" == '/products/' %}active{% endif %}">
+        <a href="{% url 'products' %}">Todos</a>
+    </li>
+
+    <!-- 🔥 CATEGORÍAS DINÁMICAS -->
+    {% for category in nav_categories %}
+        <li class="navbar-item">
+            <a href="{% url 'products' %}?category={{ category.slug }}">
+                {{ category.name }}
+            </a>
+        </li>
+    {% endfor %}
+
+    <!-- Contacto -->
+    <li class="navbar-item {% if request.path == '/contact/' %}active{% endif %}">
+        <a href="{% url 'contact' %}">Contacto</a>
+    </li>
+
+</ul>
+
+
+                <div class="navbar-actions">
+                    <a href="{% url 'cart' %}" class="cart-link">🛒 Carrito</a>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-- CONTENIDO -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>                      
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 Nebula Wear</p>
+    </footer>
+
+    <!-- ✅ JS AL FINAL (ESTO ES LA CLAVE) -->
+    <script src="{% static 'core/js/main.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
